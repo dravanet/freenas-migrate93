@@ -13,7 +13,7 @@ class Migration(DataMigration):
             if share.cifs_vfsobjects[0].startswith('['):
                 cifs_vfsobjects = []
                 for vfsobject in share.cifs_vfsobjects:
-                    vfsobject = re.sub("\s+|\[|\]|'", '', vfsobject)
+                    vfsobject = re.sub(r"\s+|\[|\]|'", '', vfsobject)
                     cifs_vfsobjects.append(vfsobject)
 
                 if cifs_vfsobjects:

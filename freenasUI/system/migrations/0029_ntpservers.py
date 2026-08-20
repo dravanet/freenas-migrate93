@@ -4,7 +4,7 @@ import re
 from south.v2 import DataMigration
 
 def toNtp(orm, entry):
-    entry = re.sub('\s+', ' ', entry).strip()
+    entry = re.sub(r'\s+', ' ', entry).strip()
     if not entry:
         return
 

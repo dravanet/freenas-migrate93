@@ -2,7 +2,7 @@ from __future__ import print_function
 
 from collections import deque
 import datetime
-from imp import reload
+from importlib import reload
 import os
 import re
 import sys

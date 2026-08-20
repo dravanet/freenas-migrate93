@@ -8,7 +8,6 @@ from django.utils.module_loading import module_has_submodule
 from django.utils._os import upath
 from django.utils import six
 
-import imp
 import sys
 import os
 
@@ -59,26 +58,21 @@ class AppCache(object):
         """
         if self.loaded:
             return
-        # Note that we want to use the import lock here - the app loading is
-        # in many cases initiated implicitly by importing, and thus it is
-        # possible to end up in deadlock when one thread initiates loading
-        # without holding the importer lock and another thread then tries to
-        # import something which also launches the app loading. For details of
-        # this situation see #18251.
-        imp.acquire_lock()
-        try:
-            if self.loaded:
-                return
-            for app_name in settings.INSTALLED_APPS:
-                if app_name in self.handled:
-                    continue
-                self.load_app(app_name, True)
-            if not self.nesting_level:
-                for app_name in self.postponed:
-                    self.load_app(app_name)
-                self.loaded = True
-        finally:
-            imp.release_lock()
+        # Note that app loading is in many cases initiated implicitly by
+        # importing, and thus it is possible to end up in deadlock when one
+        # thread initiates loading without holding the importer lock and
+        # another thread then tries to import something which also launches
+        # the app loading. For details of this situation see #18251.
+        # Python 3.x's import machinery keeps its own internal lock, so no
+        # explicit locking is required here.
+        for app_name in settings.INSTALLED_APPS:
+            if app_name in self.handled:
+                continue
+            self.load_app(app_name, True)
+        if not self.nesting_level:
+            for app_name in self.postponed:
+                self.load_app(app_name)
+            self.loaded = True
 
     def _label_for(self, app_mod):
         """
@@ -177,19 +171,15 @@ class AppCache(object):
         doesn't include app_label.
         """
         self._populate()
-        imp.acquire_lock()
-        try:
-            for app_name in settings.INSTALLED_APPS:
-                if app_label == app_name.split('.')[-1]:
-                    mod = self.load_app(app_name, False)
-                    if mod is None and not emptyOK:
-                        raise ImproperlyConfigured("App with label %s is missing a models.py module." % app_label)
-                    if self.available_apps is not None and app_label not in self.available_apps:
-                        raise UnavailableApp("App with label %s isn't available." % app_label)
-                    return mod
-            raise ImproperlyConfigured("App with label %s could not be found" % app_label)
-        finally:
-            imp.release_lock()
+        for app_name in settings.INSTALLED_APPS:
+            if app_label == app_name.split('.')[-1]:
+                mod = self.load_app(app_name, False)
+                if mod is None and not emptyOK:
+                    raise ImproperlyConfigured("App with label %s is missing a models.py module." % app_label)
+                if self.available_apps is not None and app_label not in self.available_apps:
+                    raise UnavailableApp("App with label %s isn't available." % app_label)
+                return mod
+        raise ImproperlyConfigured("App with label %s could not be found" % app_label)
 
     def get_app_errors(self):
         "Returns the map of known problems with the INSTALLED_APPS."

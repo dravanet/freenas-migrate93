@@ -19,7 +19,7 @@ class Migration(DataMigration):
 
         keytab_file = keytab.keytab_file
         regex = re.compile(
-            '^(\d+)\s+([\w-]+(\s+\(\d+\))?)\s+([^\s]+)\s+([\d+\-]+)(\s+)?$'
+            r'^(\d+)\s+([\w-]+(\s+\(\d+\))?)\s+([^\s]+)\s+([\d+\-]+)(\s+)?$'
         )
 
         tmpfile = tempfile.mktemp(dir="/tmp")

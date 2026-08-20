@@ -8,4 +8,4 @@ if 'annoying' in settings.INSTALLED_APPS:
         pass
     else:
         #django-annoying's AutoOneToOneField is essentially a OneToOneField.
-        add_introspection_rules([], ["^annoying\.fields\.AutoOneToOneField"])
+        add_introspection_rules([], [r"^annoying\.fields\.AutoOneToOneField"])

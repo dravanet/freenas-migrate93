@@ -42,4 +42,4 @@ if has_gis:
         ]
     
     # Install them
-    add_introspection_rules(rules, ["^django\.contrib\.gis"])
+    add_introspection_rules(rules, [r"^django\.contrib\.gis"])

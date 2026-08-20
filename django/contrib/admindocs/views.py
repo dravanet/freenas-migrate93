@@ -233,7 +233,7 @@ def model_detail(request, app_label, model_name):
 
     # Gather model methods.
     for func_name, func in model.__dict__.items():
-        if inspect.isfunction(func) and len(inspect.getfullargspec(func)[0]) == 1:
+        if inspect.isfunction(func) and len(inspect.signature(func).parameters) == 1:
             try:
                 for exclude in MODEL_METHODS_EXCLUDE:
                     if func_name.startswith(exclude):
@@ -368,7 +368,7 @@ non_named_group_matcher = re.compile(r'\(.*?\)')
 def simplify_regex(pattern):
     """
     Clean up urlpattern regexes into something somewhat readable by Mere Humans:
-    turns something like "^(?P<sport_slug>\w+)/athletes/(?P<athlete_slug>\w+)/$"
+    turns something like "^(?P<sport_slug>\\w+)/athletes/(?P<athlete_slug>\\w+)/$"
     into "<sport_slug>/athletes/<athlete_slug>/"
     """
     # handle named groups first

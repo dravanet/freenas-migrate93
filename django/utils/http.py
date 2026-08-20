@@ -222,7 +222,7 @@ def parse_etags(etag_str):
     """
     Parses a string with one or several etags passed in If-None-Match and
     If-Match headers by the rules in RFC 2616. Returns a list of etags
-    without surrounding double quotes (") and unescaped from \<CHAR>.
+    without surrounding double quotes (") and unescaped from \\<CHAR>.
     """
     etags = ETAG_MATCH.findall(etag_str)
     if not etags:

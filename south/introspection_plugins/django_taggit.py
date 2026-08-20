@@ -11,4 +11,4 @@ if 'taggit' in settings.INSTALLED_APPS:
     except ImportError:
         pass
     else:
-        add_ignored_fields(["^taggit\.managers"])
+        add_ignored_fields([r"^taggit\.managers"])

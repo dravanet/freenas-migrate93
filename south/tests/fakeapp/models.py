@@ -89,7 +89,7 @@ add_introspection_rules([
         [],
         {'an_other_model': ('an_other_model', {})},
     ),
-], ['^south\.tests\.fakeapp\.models\.CustomField'])
+], [r'^south\.tests\.fakeapp\.models\.CustomField'])
 
 class BaseModel(models.Model):
     pass

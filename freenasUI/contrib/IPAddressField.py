@@ -8,11 +8,11 @@ from django.forms import widgets
 
 from south.modelsinspector import add_introspection_rules
 add_introspection_rules([],
-    ["^freenasUI\.contrib\.IPAddressField\.IPAddressField"])
+    [r"^freenasUI\.contrib\.IPAddressField\.IPAddressField"])
 add_introspection_rules([],
-    ["^freenasUI\.contrib\.IPAddressField\.IP4AddressField"])
+    [r"^freenasUI\.contrib\.IPAddressField\.IP4AddressField"])
 add_introspection_rules([],
-    ["^freenasUI\.contrib\.IPAddressField\.IP6AddressField"])
+    [r"^freenasUI\.contrib\.IPAddressField\.IP6AddressField"])
 
 
 class IPNetworkWidget(widgets.TextInput):

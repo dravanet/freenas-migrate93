@@ -1,8 +1,8 @@
 import collections
+import importlib.machinery
 import os
 import sys
 from optparse import OptionParser, NO_DEFAULT
-import imp
 
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management.base import BaseCommand, CommandError, handle_default_options
@@ -31,6 +31,17 @@ def find_commands(management_dir):
     except OSError:
         return []
 
+def _find_module_pkg_dir(name, path):
+    """
+    Returns the directory containing the package `name`, searched in `path`
+    (a sequence of directories, or None for sys.path), or raises ImportError.
+    """
+    spec = importlib.machinery.PathFinder.find_spec(name, path)
+    if spec is None or spec.submodule_search_locations is None:
+        raise ImportError("No module named %s" % name)
+    return spec.submodule_search_locations[0]
+
+
 def find_management_module(app_name):
     """
     Determines the path to the management module for the given app_name,
@@ -51,19 +62,14 @@ def find_management_module(app_name):
     # module, we need look for the case where the project name is part
     # of the app_name but the project directory itself isn't on the path.
     try:
-        f, path, descr = imp.find_module(part, path)
+        path = _find_module_pkg_dir(part, None)
     except ImportError as e:
         if os.path.basename(os.getcwd()) != part:
             raise e
-    else:
-        if f:
-            f.close()
 
     while parts:
         part = parts.pop()
-        f, path, descr = imp.find_module(part, [path] if path else None)
-        if f:
-            f.close()
+        path = _find_module_pkg_dir(part, [path] if path else None)
     return path
 
 def load_command_class(app_name, name):

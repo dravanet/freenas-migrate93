@@ -34,7 +34,7 @@ from django.utils.text import capfirst
 
 from south.modelsinspector import add_introspection_rules
 
-add_introspection_rules([], ["^(freenasUI\.)?freeadmin\.models\.fields\..*"])
+add_introspection_rules([], [r"^(freenasUI\.)?freeadmin\.models\.fields\..*"])
 log = logging.getLogger('freeadmin.models.fields')
 
 
@@ -133,7 +133,7 @@ class MACField(models.Field):
 
     def get_db_prep_value(self, value, connection, prepared=False):
         if value:
-            return re.sub(r'(?P<du>[0-9A-F]{2})(?!$)', '\g<du>:', value)
+            return re.sub(r'(?P<du>[0-9A-F]{2})(?!$)', r'\g<du>:', value)
         return value
 
 

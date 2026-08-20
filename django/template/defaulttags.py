@@ -1261,7 +1261,7 @@ def url(parser, token):
     For example if you have a view ``app_name.client`` taking client's id and
     the corresponding line in a URLconf looks like this::
 
-        ('^client/(\d+)/$', 'app_name.client')
+        ('^client/(\\d+)/$', 'app_name.client')
 
     and this app's URLconf is included into the project's URLconf under some
     path::
@@ -1277,7 +1277,7 @@ def url(parser, token):
     The first argument can also be a named URL instead of the Python path to
     the view callable. For example if the URLconf entry looks like this::
 
-        url('^client/(\d+)/$', name='client-detail-view')
+        url('^client/(\\d+)/$', name='client-detail-view')
 
     then in the template you can use::
 

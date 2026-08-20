@@ -11,6 +11,6 @@ if 'objectpermissions' in settings.INSTALLED_APPS:
     except ImportError:
         pass
     else:
-        add_ignored_fields(["^objectpermissions\.models\.UserPermissionRelation",
-                            "^objectpermissions\.models\.GroupPermissionRelation"])
+        add_ignored_fields([r"^objectpermissions\.models\.UserPermissionRelation",
+                            r"^objectpermissions\.models\.GroupPermissionRelation"])
 

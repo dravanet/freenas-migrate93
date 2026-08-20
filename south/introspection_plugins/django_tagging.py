@@ -17,8 +17,8 @@ if "tagging" in settings.INSTALLED_APPS:
                 },
             ),
         ]
-        add_introspection_rules(rules, ["^tagging\.fields",])
+        add_introspection_rules(rules, [r"^tagging\.fields",])
 
 if "tagging_autocomplete" in settings.INSTALLED_APPS:
-    add_introspection_rules([], ["^tagging_autocomplete\.models\.TagAutocompleteField"])
+    add_introspection_rules([], [r"^tagging_autocomplete\.models\.TagAutocompleteField"])
 

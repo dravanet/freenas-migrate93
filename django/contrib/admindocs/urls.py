@@ -30,7 +30,7 @@ urlpatterns = patterns('',
         views.model_index,
         name='django-admindocs-models-index'
     ),
-    url('^models/(?P<app_label>[^\.]+)\.(?P<model_name>[^/]+)/$',
+    url(r'^models/(?P<app_label>[^\.]+)\.(?P<model_name>[^/]+)/$',
         views.model_detail,
         name='django-admindocs-models-detail'
     ),

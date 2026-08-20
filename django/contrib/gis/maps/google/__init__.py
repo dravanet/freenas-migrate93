@@ -37,8 +37,7 @@
        
    - The `style` property provides the correct style tag for the CSS
      properties required by Google Maps on IE:
-     <style type="text/css">v\:* {behavior:url(#default#VML);}</style>
-
+     <style type="text/css">v\\:* {behavior:url(#default#VML);}</style>
    - The `scripts` property provides the necessary <script> tags for 
      including the Google Maps javascript, as well as including the
      generated javascript.

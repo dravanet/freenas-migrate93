@@ -59,7 +59,7 @@ class DatabaseOperations(generic.DatabaseOperations):
     #      e.g. "CHECK MATE" varchar(10) DEFAULT 'NULL'
     def adj_column_sql(self, col):
         # Syntax fixes -- Oracle is picky about clause order
-        col = re.sub('(?P<constr>CHECK \(.*\))(?P<any>.*)(?P<default>DEFAULT \d+)', 
+        col = re.sub(r'(?P<constr>CHECK \(.*\))(?P<any>.*)(?P<default>DEFAULT \d+)', 
                      lambda mo: '%s %s%s'%(mo.group('default'), mo.group('constr'), mo.group('any')), col) #syntax fix for boolean/integer field only
         col = re.sub('(?P<not_null>(NOT )?NULL) (?P<misc>(.* )?)(?P<default>DEFAULT.+)',
                      lambda mo: '%s %s %s'%(mo.group('default'),mo.group('not_null'),mo.group('misc') or ''), col) #fix order of NULL/NOT NULL and DEFAULT

@@ -53,8 +53,15 @@ class Migrator(object):
 
     @staticmethod
     def _wrap_direction(direction, orm):
-        args = inspect.getfullargspec(direction)
-        if len(args[0]) == 1:
+        if inspect.ismethod(direction):
+            # Bound methods: inspect.signature() excludes the instance (self)
+            # argument that getfullargspec() used to include. Add it back so
+            # old-style 'forwards(self)' migrations are still treated as not
+            # taking an ORM argument.
+            arg_count = len(inspect.signature(direction).parameters) + 1
+        else:
+            arg_count = len(inspect.signature(direction).parameters)
+        if arg_count == 1:
             # Old migration, no ORM should be passed in
             return direction
         return (lambda: direction(orm))

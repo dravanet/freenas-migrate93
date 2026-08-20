@@ -569,7 +569,7 @@ TECHNICAL_500_TEMPLATE = """
         var arrElements = (strTagName == "*" && document.all)? document.all :
         oElm.getElementsByTagName(strTagName);
         var arrReturnElements = new Array();
-        strClassName = strClassName.replace(/\-/g, "\\-");
+        strClassName = strClassName.replace(/\\-/g, "\\-");
         var oRegExp = new RegExp("(^|\\s)" + strClassName + "(\\s|$)");
         var oElement;
         for(var i=0; i<arrElements.length; i++){

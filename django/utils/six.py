@@ -23,6 +23,8 @@
 from __future__ import absolute_import
 
 import functools
+import importlib
+import importlib.util
 import itertools
 import operator
 import sys
@@ -177,10 +179,24 @@ class _SixMetaPathImporter(object):
     def _get_module(self, fullname):
         return self.known_modules[self.name + "." + fullname]
 
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname in self.known_modules:
+            return importlib.util.spec_from_loader(fullname, self)
+        return None
+
     def find_module(self, fullname, path=None):
         if fullname in self.known_modules:
             return self
         return None
+
+    def create_module(self, spec):
+        return self.__get_module(spec.name)
+
+    def exec_module(self, module):
+        pass
+
+    def load_module(self, fullname):
+        return self.find_module(fullname)
 
     def __get_module(self, fullname):
         try:
@@ -235,7 +251,7 @@ _moved_attributes = [
     MovedAttribute("intern", "__builtin__", "sys"),
     MovedAttribute("map", "itertools", "builtins", "imap", "map"),
     MovedAttribute("range", "__builtin__", "builtins", "xrange", "range"),
-    MovedAttribute("reload_module", "__builtin__", "imp", "reload"),
+    MovedAttribute("reload_module", "__builtin__", "importlib", "reload"),
     MovedAttribute("reduce", "__builtin__", "functools"),
     MovedAttribute("shlex_quote", "pipes", "shlex", "quote"),
     MovedAttribute("StringIO", "StringIO", "io"),

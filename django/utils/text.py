@@ -407,6 +407,6 @@ def slugify(value):
     trailing whitespace.
     """
     value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
-    value = re.sub('[^\w\s-]', '', value).strip().lower()
-    return mark_safe(re.sub('[-\s]+', '-', value))
+    value = re.sub(r'[^\w\s-]', '', value).strip().lower()
+    return mark_safe(re.sub(r'[-\s]+', '-', value))
 slugify = allow_lazy(slugify, six.text_type)

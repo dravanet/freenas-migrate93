@@ -22,7 +22,7 @@ class Migration(DataMigration):
                 continue
 
             line = p1.communicate()[0].split('\n')[1].strip()
-            vol.vol_guid = re.sub('\s+', ' ', line).split(' ')[2]
+            vol.vol_guid = re.sub(r'\s+', ' ', line).split(' ')[2]
             vol.save()
 
             psave = Popen(["zpool", "export", vol.vol_name], stdout=PIPE)

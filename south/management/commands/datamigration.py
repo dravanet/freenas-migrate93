@@ -45,7 +45,7 @@ class Command(BaseCommand):
             name = "-"
 	
         # Only allow valid names
-        if re.search('[^_\w]', name) and name != "-":
+        if re.search(r'[^_\w]', name) and name != "-":
             self.error("Migration names should contain only alphanumeric characters and underscores.")
         
         # If not name, there's an error

@@ -24,7 +24,7 @@ if "audit_log" in settings.INSTALLED_APPS:
         # Add the rules for the `LastUserField`
         add_introspection_rules(                           
             rules,                                         
-            ['^audit_log\.models\.fields\.LastUserField'], 
+            [r'^audit_log\.models\.fields\.LastUserField'], 
         )                                                  
     except ImportError:                                 
         pass

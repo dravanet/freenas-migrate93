@@ -21,7 +21,7 @@ except AttributeError:
 if not use_workaround:
     HTMLParser = _html_parser.HTMLParser
 else:
-    tagfind = re.compile('([a-zA-Z][-.a-zA-Z0-9:_]*)(?:\s|/(?!>))*')
+    tagfind = re.compile(r'([a-zA-Z][-.a-zA-Z0-9:_]*)(?:\s|/(?!>))*')
 
     class HTMLParser(_html_parser.HTMLParser):
         """

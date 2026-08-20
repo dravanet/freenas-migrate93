@@ -339,7 +339,7 @@ def do_translate(parser, token):
             # backwards compatibility with existing uses of ``trans``
             # where single quote use is supported.
             if value[0] == "'":
-                m = re.match("^'([^']+)'(\|.*$)", value)
+                m = re.match(r"^'([^']+)'(\|.*$)", value)
                 if m:
                     value = '"%s"%s' % (m.group(1).replace('"','\\"'), m.group(2))
                 elif value[-1] == "'":
